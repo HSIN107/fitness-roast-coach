@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>暴躁教練：健身飲食打卡分析器 - 作品頁</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+    h1 { color: #d9381e; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+    h2 { color: #2c3e50; margin-top: 30px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    code { font-family: Consolas, Monaco, monospace; }
+    .card { background: #fff5f5; border-left: 4px solid #d9381e; padding: 15px; margin: 15px 0; }
+  </style>
+</head>
+<body>
+  <h1>暴躁教練：健身飲食打卡分析器</h1>
+
+  <h2>一、做了什麼</h2>
+  <p>本專案建立了一個基於 LLM 結構化輸出（Structured Output）的飲食分析工具。使用者輸入一日飲食，系統將透過 Pydantic 定義的 <code>NutritionReview</code> 模型，強制 LLM 輸出固定 JSON 格式，評估熱量與蛋白質並給出毒舌改善建議。</p>
+
+  <h2>二、怎麼執行</h2>
+  <ol>
+    <li>安裝 <a href="https://docs.astral.sh/uv/">uv</a> 與本地 Ollama，並準備支援結構化輸出的模型。</li>
+    <li>使用 uv 安裝依賴：<code>uv sync</code></li>
+    <li>複製環境變數設定：<code>cp .env.example .env</code>（Windows PowerShell 可用 <code>Copy-Item</code>），確認模型與 API 路徑。</li>
+    <li>啟動主程式：<code>uv run python src/main.py</code></li>
+  </ol>
+  <p>預設使用 <code>http://localhost:11434/v1</code> 的 Ollama，也能透過 <code>OPENAI_BASE_URL</code> 改用其他 OpenAI 相容 API。</p>
+
+  <h2>三、執行結果</h2>
+  <div class="card">
+    <p><strong>輸入範例：</strong>早餐：大冰奶、鮪魚蛋餅。午餐：炸排骨便當。下午茶：珍奶。</p>
+    <p><strong>輸出結果：</strong></p>
+    <pre><code>{
+  "estimated_calories": 2150,
+  "protein_level": "嚴重缺乏",
+  "roast_comment": "你喝的大冰奶跟珍奶糖分直接爆表，炸排骨的油都可以拿來煎蛋了！蛋白質沒吃夠，精緻澱粉倒是塞滿滿，是打算把肌肉全融化掉嗎？",
+  "action_item": "明天起把含糖飲料全部換成無糖豆漿或水，午餐改吃去皮雞肉便當補足蛋白質！"
+}</code></pre>
+  </div>
+  <p>以上數值為展示用範例，實際結果會依模型、份量與輸入內容而不同。</p>
+
+  <h2>四、AI 使用說明</h2>
+  <ul>
+    <li><strong>使用工具：</strong>Python、uv、OpenAI Python SDK、Pydantic、Ollama。</li>
+    <li><strong>AI 角色：</strong>AI 扮演嚴格但專業的健身教練，針對飲食紀錄提供反向激勵。</li>
+    <li><strong>結構化輸出：</strong>以 Pydantic <code>NutritionReview</code> 作為 <code>response_format</code>，讓回應可被程式穩定解析。</li>
+    <li><strong>限制：</strong>熱量為估算值，不能取代營養師、醫師或個人化醫療建議；毒舌語氣僅作為趣味互動。</li>
+  </ul>
+</body>
+</html>
