@@ -49,12 +49,12 @@ def analyze_meal(meal_log: str) -> NutritionReview:
 
 
 if __name__ == "__main__":
-    sample_input = (
-        "早餐：一杯大冰奶、鮪魚蛋餅。午餐：炸排骨便當（白飯吃光）。"
-        "下午：喝了一杯微糖珍珠鮮奶茶。"
-    )
+    meal_log = input("請輸入今天吃了什麼（例如：早餐...；午餐...）：").strip()
+    if not meal_log:
+        raise ValueError("飲食紀錄不可為空，請至少輸入一餐。")
+
     print("正在由教練分析飲食紀錄...\n")
-    result = analyze_meal(sample_input)
+    result = analyze_meal(meal_log)
 
     print("=== 飲食分析結果 (結構化 JSON) ===")
     print(json.dumps(result.model_dump(), indent=2, ensure_ascii=False))
